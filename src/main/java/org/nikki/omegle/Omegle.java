@@ -45,7 +45,7 @@ public class Omegle implements Runnable {
 	/**
 	 * The base omegle url
 	 */
-	public static String BASE_URL = "http://omegle.com";
+	public static String BASE_URL = "https://front18.omegle.com";
 
 	/**
 	 * The URL used to start a chat
@@ -92,7 +92,7 @@ public class Omegle implements Runnable {
 	/**
 	 * A list of all sessions currently active
 	 */
-	private List<OmegleSession> sessions = new LinkedList<OmegleSession>();
+	private List<OmegleSession> sessions = new LinkedList<>();
 
 	/**
 	 * The 'firstEvents' flag
@@ -114,13 +114,15 @@ public class Omegle implements Runnable {
 	/**
 	 * Main thread to parse chat messages.
 	 */
-	public void run() {
+	@Override
+    public void run() {
 		while (true) {
 			synchronized (sessions) {
 				for (final OmegleSession session : sessions) {
 					// In case anybody tries to run blocking operations ._.
 					service.execute(new Runnable() {
-						public void run() {
+						@Override
+                        public void run() {
 							session.checkEvents();
 						}
 					});
@@ -179,9 +181,10 @@ public class Omegle implements Runnable {
 	public OmegleSession openSession(OmegleMode mode, Object... objs)
 			throws OmegleException {
 		try {
-			Map<String, Object> vars = new HashMap<String, Object>();
+			Map<String, Object> vars = new HashMap<>();
 			vars.put("rcs", "1");
 			vars.put("firstevents", firstEvents ? "1" : "0");
+			vars.put("caps", "captcha2,t");
 
 			if (mode == OmegleMode.SPY) {
 				vars.put("wantsspy", "1");
