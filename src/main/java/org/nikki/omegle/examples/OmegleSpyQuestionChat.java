@@ -35,70 +35,68 @@ import org.nikki.omegle.event.OmegleEventAdaptor;
  */
 public class OmegleSpyQuestionChat {
 
-	public static void main(String[] args) {
-		Omegle omegle = new Omegle();
-		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					System.in));
-			String question = null;
-			while(question == null) {
-				System.out.print("Question: ");
-				question = reader.readLine();
-				if(question.trim().length() == 0) {
-					question = null;
-				}
-			}
-			
-			final String fQuestion = question;
-			
-			System.out.println("Opening session...");
+    public static void main(String[] args) {
+        Omegle omegle = new Omegle();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            String question = null;
+            while (question == null) {
+                System.out.print("Question: ");
+                question = reader.readLine();
+                if (question.trim().length() == 0) {
+                    question = null;
+                }
+            }
 
-			OmegleSession session = omegle.openSession(OmegleMode.SPY_QUESTION, question, new OmegleEventAdaptor() {
-				@Override
-				public void chatWaiting(OmegleSession session) {
-					System.out.println("Waiting for chat...");
-				}
+            final String fQuestion = question;
 
-				@Override
-				public void chatConnected(OmegleSession session) {
-					System.out
-							.println("You are now watching two strangers talk about \""+fQuestion+"\"!");
-				}
+            System.out.println("Opening session...");
 
-				@Override
-				public void spyMessage(OmegleSession session, OmegleSpyStranger stranger, String message) {
-					System.out.println(stranger + ": " + message);
-				}
+            OmegleSession session = omegle.openSession(OmegleMode.SPY_QUESTION, question, new OmegleEventAdaptor() {
+                @Override
+                public void chatWaiting(OmegleSession session) {
+                    System.out.println("Waiting for chat...");
+                }
 
-				@Override
-				public void spyDisconnected(OmegleSession session, OmegleSpyStranger stranger) {
-					System.out.println("Stranger "+stranger+" disconnected, goodbye!");
-					System.exit(0);
-				}
-				
-				@Override
-				public void question(OmegleSession session, String question) {
-					System.out.println("Question: "+question);
-				}
+                @Override
+                public void chatConnected(OmegleSession session) {
+                    System.out.println("You are now watching two strangers talk about \"" + fQuestion + "\"!");
+                }
 
-				@Override
-				public void omegleError(OmegleSession session, String string) {
-					System.out.println("ERROR! " + string);
-					System.exit(1);
-				}
-			});
+                @Override
+                public void spyMessage(OmegleSession session, OmegleSpyStranger stranger, String message) {
+                    System.out.println(stranger + ": " + message);
+                }
 
-			while (true) {
-				String line = reader.readLine();
-				if (line == null) {
-					break;
-				}
-				if (line.equals("quit")) {
-					session.disconnect();
-				}
-			}
-		} catch (OmegleException | IOException e) {
-			e.printStackTrace();
-		}
-	}
+                @Override
+                public void spyDisconnected(OmegleSession session, OmegleSpyStranger stranger) {
+                    System.out.println("Stranger " + stranger + " disconnected, goodbye!");
+                    System.exit(0);
+                }
+
+                @Override
+                public void question(OmegleSession session, String question) {
+                    System.out.println("Question: " + question);
+                }
+
+                @Override
+                public void omegleError(OmegleSession session, String string) {
+                    System.out.println("ERROR! " + string);
+                    System.exit(1);
+                }
+            });
+
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                if (line.equals("quit")) {
+                    session.disconnect();
+                }
+            }
+        } catch (OmegleException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

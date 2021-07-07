@@ -26,5 +26,5 @@ package org.nikki.omegle.core;
  *
  */
 public enum OmegleMode {
-	NORMAL, SPY, SPY_QUESTION
+    NORMAL, SPY, SPY_QUESTION
 }

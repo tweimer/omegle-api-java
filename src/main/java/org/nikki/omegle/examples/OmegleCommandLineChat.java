@@ -34,62 +34,60 @@ import org.nikki.omegle.event.OmegleEventAdaptor;
  */
 public class OmegleCommandLineChat {
 
-	public static void main(String[] args) {
-		Omegle omegle = new Omegle();
-		try {
-			System.out.println("Opening session...");
-			
-			OmegleSession session = omegle.openSession(OmegleMode.NORMAL, new OmegleEventAdaptor() {
-				@Override
-				public void chatWaiting(OmegleSession session) {
-					System.out.println("Waiting for chat...");
-				}
+    public static void main(String[] args) {
+        Omegle omegle = new Omegle();
+        try {
+            System.out.println("Opening session...");
 
-				@Override
-				public void chatConnected(OmegleSession session) {
-					System.out
-							.println("You are now talking to a random stranger!");
-				}
+            OmegleSession session = omegle.openSession(OmegleMode.NORMAL, new OmegleEventAdaptor() {
+                @Override
+                public void chatWaiting(OmegleSession session) {
+                    System.out.println("Waiting for chat...");
+                }
 
-				@Override
-				public void chatMessage(OmegleSession session, String message) {
-					System.out.println("Stranger: " + message);
-				}
+                @Override
+                public void chatConnected(OmegleSession session) {
+                    System.out.println("You are now talking to a random stranger!");
+                }
 
-				@Override
-				public void messageSent(OmegleSession session, String string) {
-					System.out.println("You: " + string);
-				}
+                @Override
+                public void chatMessage(OmegleSession session, String message) {
+                    System.out.println("Stranger: " + message);
+                }
 
-				@Override
-				public void strangerDisconnected(OmegleSession session) {
-					System.out.println("Stranger disconnected, goodbye!");
-					System.exit(0);
-				}
+                @Override
+                public void messageSent(OmegleSession session, String string) {
+                    System.out.println("You: " + string);
+                }
 
-				@Override
-				public void omegleError(OmegleSession session, String string) {
-					System.out.println("ERROR! " + string);
-					System.exit(1);
-				}
-			});
+                @Override
+                public void strangerDisconnected(OmegleSession session) {
+                    System.out.println("Stranger disconnected, goodbye!");
+                    System.exit(0);
+                }
 
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					System.in));
-			while (true) {
-				String line = reader.readLine();
-				if (line == null) {
-					break;
-				}
-				if (line.equals("quit")) {
-					session.disconnect();
-				} else {
-					// Send the message in non-blocking mode
-					session.send(line, true);
-				}
-			}
-		} catch (OmegleException | IOException e) {
-			e.printStackTrace();
-		}
-	}
+                @Override
+                public void omegleError(OmegleSession session, String string) {
+                    System.out.println("ERROR! " + string);
+                    System.exit(1);
+                }
+            });
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                if (line.equals("quit")) {
+                    session.disconnect();
+                } else {
+                    // Send the message in non-blocking mode
+                    session.send(line, true);
+                }
+            }
+        } catch (OmegleException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

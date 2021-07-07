@@ -29,35 +29,35 @@ import org.nikki.omegle.event.OmegleEventAdaptor;
  */
 public class OmegleBot {
 
-	public static void main(String[] args) {
-		String[] messages = { "Hello", "How are you?", "Gotta go!" };
+    public static void main(String[] args) {
+        String[] messages = { "Hello", "How are you?", "Gotta go!" };
 
-		if (args.length > 0) {
-			messages = args;
-		}
+        if (args.length > 0) {
+            messages = args;
+        }
 
-		Omegle omegle = new Omegle();
-		try {
-			final String[] fMessages = messages;
+        Omegle omegle = new Omegle();
+        try {
+            final String[] fMessages = messages;
 
-			OmegleSession session = omegle.openSession();
-			session.addListener(new OmegleEventAdaptor() {
-				private int msgIdx = 0;
+            OmegleSession session = omegle.openSession();
+            session.addListener(new OmegleEventAdaptor() {
+                private int msgIdx = 0;
 
-				@Override
-				public void chatMessage(OmegleSession session, String message) {
-					try {
-						session.send(fMessages[msgIdx++], false);
-						if (msgIdx < fMessages.length) {
-							session.disconnect();
-						}
-					} catch (OmegleException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		} catch (OmegleException e) {
-			e.printStackTrace();
-		}
-	}
+                @Override
+                public void chatMessage(OmegleSession session, String message) {
+                    try {
+                        session.send(fMessages[msgIdx++], false);
+                        if (msgIdx < fMessages.length) {
+                            session.disconnect();
+                        }
+                    } catch (OmegleException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (OmegleException e) {
+            e.printStackTrace();
+        }
+    }
 }

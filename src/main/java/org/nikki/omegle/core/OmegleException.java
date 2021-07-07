@@ -24,13 +24,13 @@ package org.nikki.omegle.core;
  */
 public class OmegleException extends Exception {
 
-	private static final long serialVersionUID = 5845898517299356613L;
+    private static final long serialVersionUID = 5845898517299356613L;
 
-	public OmegleException(Throwable e) {
-		super(e);
-	}
+    public OmegleException(Throwable e) {
+        super(e);
+    }
 
-	public OmegleException(String s) {
-		super(s);
-	}
+    public OmegleException(String s) {
+        super(s);
+    }
 }
